@@ -13,6 +13,9 @@ process.env.HOST = process.env.HOST || 'localhost';
 // default PORT to 3000
 process.env.PORT = process.env.PORT || 3000;
 
+// default protocol to http
+process.env.HTTPS = process.env.HTTPS || false;
+
 // default APIPORT to 3001
 process.env.APIPORT = process.env.APIPORT || 3001;
 
