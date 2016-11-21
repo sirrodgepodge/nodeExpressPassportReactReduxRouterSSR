@@ -30,10 +30,10 @@ logger(api);
 
 startDbPromise.then(() => {
   // handle auth
-  api.use('/auth', require('./auth').default(auth));
+  api.use('/auth', require('./auth')(auth));
 
   // connect routes
-  api.use('/api', require('./routes').default(router)); // we pass app instance into this function that adds routes
+  api.use('/api', require('./routes')(router)); // we pass app instance into this function that adds routes
 
   // catch-all
   api.use('/*', (req, res, next) =>

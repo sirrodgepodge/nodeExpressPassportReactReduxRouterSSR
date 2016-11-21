@@ -46,13 +46,7 @@ const Root = (
 const rootElement = document.getElementById('root');
 
 // Include DevTools if not in production
-if (process.env.NODE_ENV === 'production' || window.devToolsExtension) {
-  render((
-    <Provider store={store}>
-      {Root}
-    </Provider>
-  ), rootElement);
-} else {
+if (process.env.NODE_ENV !== 'production' && !window.devToolsExtension) {
   const { DevTools } = require('../shared/redux/DevTools');
   render((
     <Provider store={store}>
@@ -60,6 +54,12 @@ if (process.env.NODE_ENV === 'production' || window.devToolsExtension) {
         {Root}
         <DevTools />
       </div>
+    </Provider>
+  ), rootElement);
+} else {
+  render((
+    <Provider store={store}>
+      {Root}
     </Provider>
   ), rootElement);
 }

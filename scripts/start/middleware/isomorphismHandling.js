@@ -1,24 +1,23 @@
-// import React from 'react';
-// import { renderToString } from 'react-dom/server';
-// import { match } from 'react-router';
-// import createHistory from 'react-router/lib/createMemoryHistory';
-// import { Provider } from 'react-redux';
-// import { syncHistoryWithStore } from 'react-router-redux';
-// import { ReduxAsyncConnect, loadOnServer } from 'redux-connect';
-import hbs from 'express-hbs';
-// import PrettyError from 'pretty-error';
-// const pretty = new PrettyError();
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { match } from 'react-router';
+import createHistory from 'react-router/lib/createMemoryHistory';
+import { Provider } from 'react-redux';
+import { syncHistoryWithStore } from 'react-router-redux';
+import { ReduxAsyncConnect, loadOnServer } from 'redux-connect';
+import PrettyError from 'pretty-error';
+const pretty = new PrettyError();
 
 // internal
 import paths from '../../../config/paths';
 import Request from '../../../shared/utils/Request';
 
 // app functions
-// import getRoutes from '../../../shared/routes';
-// import createStore from '../../../shared/redux/store';
+import getRoutes from '../../../shared/routes';
+import createStore from '../../../shared/redux/store';
 
 // need to set base URL
-// Request.setBaseUrl(`${process.env.HTTPS ? 'https' : 'http'}://${process.env.HOST}:${process.env.PORT}/`);
+Request.setBaseUrl(`${process.env.HTTPS ? 'https' : 'http'}://${process.env.HOST}:${process.env.PORT}/`);
 
 // sends initial html to client
 // function hydrateOnClient(store, component) {
@@ -50,18 +49,14 @@ import Request from '../../../shared/utils/Request';
 // }
 
 export default app => {
-  app.set("view engine", "html");
-  app.engine("html", hbs.express4());
-
   app.get('/*', (req, res) => {
-    res.render('index.html', { SSRhtml: '<div>heyyy</div>' });
+    console.log('hitting /*');
+    res.render('index.html', {
+      dev: process.env.NODE_ENV === 'development',
+      SSRhtml: '<div>heyyy</div>'
+    });
   })
   // app.use((req, res) => {
-  //   if (__DEVELOPMENT__) {
-  //     // Do not cache webpack stats: the script file would change since
-  //     // hot module replacement is enabled in the development env
-  //     webpackIsomorphicTools.refresh();
-  //   }
   //   const simpleIsoFetch = new SimpleIsoFetch(req);
   //   const memoryHistory = createHistory(req.originalUrl);
   //   handleRender(createStore(memoryHistory, simpleIsoFetch));

@@ -12,7 +12,7 @@ export function configureStore(history, client, initialState) {
 
   const middleware = [asyncMiddleware(client), reduxRouterMiddleware];
 
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production' || __SERVER__) {
     finalCreateStore = applyMiddleware(...middleware)(_createStore);
   } else {
     const { persistState } = require('redux-devtools');
@@ -26,7 +26,7 @@ export function configureStore(history, client, initialState) {
 
   const store = finalCreateStore(rootReducer, initialState);
 
-  if (module.hot) {
+  if (process.env.NODE_ENV !== 'production' && module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
       const nextReducer = require('../reducers');

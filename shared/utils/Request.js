@@ -5,8 +5,13 @@ import _ from 'lodash';
 
 const isServer = typeof window === 'undefined';
 
+let baseUrl = '';
 
 export default class Request {
+	static setBaseUrl(url) {
+		baseUrl = url;
+	}
+
 	constructor(req) {
 		this.makeRequest = function makeRequest(o) {
 	    o.route = o.route || [];
@@ -18,7 +23,10 @@ export default class Request {
 			};
 
 			return new Promise((resolve, reject) => {
-				const request = superagent[o.method](pathJoin(o.route, typeof o.params === 'string' ? o.params : pathJoin(...o.params)) + o.query); // if o.params is not string destructure it
+				let combinedRoute = pathJoin(o.route, typeof o.params === 'string' ? o.params : pathJoin(...o.params)) + o.query;
+				if(combinedRoute[0] === '/') combinedRoute = baseUrl + combinedRoute;
+				const request = superagent[o.method](combinedRoute); // if o.params is not string destructure
+				
 				if (isServer && req.get('cookie')) {
 					request.set('cookie', req.get('cookie'));
 				}
