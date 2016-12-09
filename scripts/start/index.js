@@ -22,7 +22,10 @@ process.env.PORT = process.env.PORT || 3000;
 // process.env.HTTPS = process.env.HTTPS || false;
 
 // default APIPORT to 3001
-process.env.APIPORT = process.env.APIPORT || 3001;
+process.env.APIPORT = process.env.APIPORT || process.env.PORT + 1;
+
+// default MongoDB to local
+process.env.MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/blogCollectionSSR';
 
 
 // handles live node reloads
